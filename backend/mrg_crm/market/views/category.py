@@ -13,7 +13,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 class SubCategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = SubCategory
-        fields = ['id', 'name', ]
+        fields = ['id', 'name']
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """

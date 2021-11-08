@@ -16,4 +16,4 @@ export class ApiService {
     return this.http.get(`${environment.backendUrl}/v1/viewsets/category/`)
   }
 
-}
+}   
