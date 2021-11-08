@@ -1,0 +1,9 @@
+*.pyc
+__pycache__
+.pytest_cache
+venv/
+node_modules/
+package-lock.json
+.vscode
+.idea
+backend/mrg_crm/db.sqlite3

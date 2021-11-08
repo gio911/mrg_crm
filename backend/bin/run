@@ -1,0 +1,3 @@
+. ./venv/bin/activate
+cd mrg_crm
+./manage.py runserver

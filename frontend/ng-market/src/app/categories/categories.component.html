@@ -1,0 +1,23 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Categories</h1>
+  <div >
+  <mat-grid-list cols="3" rowHeight="350px"  >
+    <div *ngFor="let category of categoriesList.results">
+    <mat-grid-tile *ngFor = "let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card"  >
+        <mat-card-header>
+          <mat-card-title>
+           
+           <a routerLink="/category/{{category.id}}" >{{category.name}}</a>
+           <img src="{{category.get_small_image_url}}"/>
+
+          </mat-card-title>
+        </mat-card-header>
+         
+      </mat-card>
+    </mat-grid-tile>
+    </div>
+
+  </mat-grid-list>
+</div>
+</div>
