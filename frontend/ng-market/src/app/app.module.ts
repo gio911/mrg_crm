@@ -21,6 +21,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import { CategoriesComponent } from './categories/categories.component';
 import { ProductsComponent } from './products/products.component';
+import { AuthLayoutComponent } from './shared/layouts/auth-layout/auth-layout.component';
+import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginPageComponent } from './login-page/login-page.component';
+
 
 
 @NgModule({
@@ -29,11 +35,17 @@ import { ProductsComponent } from './products/products.component';
     NavComponent,
     CategoriesComponent,
     ProductsComponent,
+    AuthLayoutComponent,
+    SiteLayoutComponent,
+    LoginPageComponent,
+    RegisterPageComponent,
     
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    AppRoutingModule,
+     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+     FormsModule,
+     ReactiveFormsModule,
+     AppRoutingModule,
      FlexLayoutModule,
      BrowserAnimationsModule,
      MatButtonModule,
@@ -46,6 +58,7 @@ import { ProductsComponent } from './products/products.component';
      MatListModule,
      MatGridListModule,
      MatMenuModule,
+     
   ],
   providers: [],
   bootstrap: [AppComponent]

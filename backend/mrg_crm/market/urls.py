@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 
 from market.views.auth import AuthView
 from market.views.product import ProductListView

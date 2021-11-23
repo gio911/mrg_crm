@@ -4,26 +4,9 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
 from easy_thumbnails.files import get_thumbnailer
+from users.models import Consumer, Provider
 from mrg_crm.settings import BACKEND_URL
 
-
-
-class Provider(User):
-    name = models.CharField(max_length=250, default='')
-    phone = models.CharField(max_length=250, default='')
-    rating = models.IntegerField(default=0)
-    class Meta:
-        verbose_name='Provider'
-        verbose_name_plural='Providers'
-
-class Consumer(User):
-    name = models.CharField(max_length=250, default='')
-    phone = models.CharField(max_length=250, default='')
-    address = models.TextField(default='')
-    geo_location = models.CharField(max_length=250, default='')
-    class Meta:
-        verbose_name='Consumer'
-        verbose_name_plural='Consumers'
 
 class Category(models.Model):
     name = models.CharField(max_length=250, default='')

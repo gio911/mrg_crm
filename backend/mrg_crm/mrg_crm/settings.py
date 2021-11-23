@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'market',
     'drf_yasg',
     'rest_framework',
@@ -92,7 +93,7 @@ WSGI_APPLICATION = 'mrg_crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'market1',                      
+        'NAME': 'store',                      
         'USER': 'postgres',
         'PASSWORD': '123321',
         'HOST': '127.0.0.1',
@@ -153,3 +154,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 BACKEND_URL = 'http://localhost:8000'
+
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ALLOW_CREDANTIALS=True

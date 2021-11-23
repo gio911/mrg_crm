@@ -33,9 +33,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', include([
         path('viewsets/', include(router.urls)), #VIEWSETS ROUTS
-        path('generic/', include('market.urls')) #GENERIC ROUTS
-    ])
-        ),
+        path('generic/', include('market.urls')), #GENERIC ROUTS
+        
+    ])),
+    path('api/', include('users.urls')),
+        
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('doc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

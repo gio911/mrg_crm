@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 
-import { ApiService } from 'src/services/api.service';
+import { ApiService } from 'src/app/shared/services/api.service';
 
 
 @Component({
