@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,10 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
+AUTH_USER_MODEL = 'users.User'
 # Application definition
 
 INSTALLED_APPS = [
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,9 +42,11 @@ INSTALLED_APPS = [
     'market',
     'drf_yasg',
     'rest_framework',
+    'rest_framework_simplejwt',
     'django_filters',
     'corsheaders',
     'easy_thumbnails',
+    
 ]
 
 MIDDLEWARE = [
@@ -56,6 +59,31 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# /Users/davidstroitel/Desktop/mrg_crm/backend/mrg_crm/users/backends.py
+
+REST_FRAMEWORK = {
+
+ 
+    
+}
+
+
+
+SIMPLE_JWT = {
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+}
+# SWAGGER_SETTINGS ={
+#     'SECURITY_DEFINITIONS':{
+#         'Bearer':{
+#             'type':'apiKey',
+#             'name':'Authorization',
+#              'in':'header'
+#         }
+#     }
+# }
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -93,7 +121,7 @@ WSGI_APPLICATION = 'mrg_crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'store',                      
+        'NAME': 'metamask3',                      
         'USER': 'postgres',
         'PASSWORD': '123321',
         'HOST': '127.0.0.1',
@@ -141,12 +169,52 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 REST_FRAMEWORK = {
+       'DEFAULT_AUTHENTICATION_CLASSES': [
+        # print('OOOUPPPS'),
+        	#'users.authentication.backends.JWTAuthentication',  
+        #print('OOOUPPPS2'),  
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ],
+    'NON_FIELD_ERRORS_KEY':'error',
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         
     ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
 
@@ -157,3 +225,12 @@ BACKEND_URL = 'http://localhost:8000'
 
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ALLOW_CREDANTIALS=True
+
+EMAIL_USE_TLS=True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+# EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+
+EMAIL_HOST_USER='venator0911@gmail.com'
+EMAIL_HOST_PASSWORD='9857730009Ed'

@@ -10,7 +10,7 @@ export class ApiService {
   constructor(private http:HttpClient) { }
 
   getCategoriesApi(){
-    return this.http.get(`${environment.backendUrl}/v1/viewsets/category`)
+    return this.http.get('http://localhost:8000/v1/categories/')
   }
   getProductsByCategoryId(id:number){
     return this.http.get(`${environment.backendUrl}/v1/viewsets/category/`)

@@ -7,13 +7,20 @@ from rest_framework import permissions, routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from market.views.category import CategoryViewSet
-from market.views.auth import AuthView
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+
+
+# from market.views1.category import CategoryViewSet
+# from market.views1.auth import AuthView
 
 schema_view = get_schema_view(
    openapi.Info(
       title="Delivery",
-      default_version='v1',
+      default_version='v',
       description='''
       Documentation `RedDoc` view can be found [here](/doc)
       ''',
@@ -26,18 +33,20 @@ schema_view = get_schema_view(
 )
 
 router = routers.DefaultRouter()
-router.register(r'category', CategoryViewSet )
+# router.register(r'category', CategoryViewSet )
 
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('v1/', include([
         path('viewsets/', include(router.urls)), #VIEWSETS ROUTS
-        path('generic/', include('market.urls')), #GENERIC ROUTS
+        path('categories/', include('market.urls')), #GENERIC ROUTS
         
     ])),
     path('api/', include('users.urls')),
-        
+    # path('api/token/', TokenObtainPairView.as_view()),
+    # path('api/token/refresh/', TokenRefreshView.as_view()),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('doc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

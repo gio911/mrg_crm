@@ -1,8 +1,8 @@
 from django.db import models
-
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
+from users.models import User
 from easy_thumbnails.files import get_thumbnailer
 from users.models import Consumer, Provider
 from mrg_crm.settings import BACKEND_URL
@@ -11,7 +11,7 @@ from mrg_crm.settings import BACKEND_URL
 class Category(models.Model):
     name = models.CharField(max_length=250, default='')
     image = models.ImageField(upload_to='category', blank=True, null=True)
-    user = models.ForeignKey(User, on_delete = models.CASCADE, null=True, blank=True, related_name='categories')
+    owner = models.ForeignKey(User, on_delete = models.CASCADE, null=True, blank=True, related_name='categories')
 
     class Meta:
         verbose_name='Category'
@@ -52,7 +52,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
     sub_category = models.ForeignKey(SubCategory, on_delete=models.SET_NULL, null=True , blank=True  )
-    user = models.ForeignKey(User, on_delete = models.CASCADE, blank=True, null=True )
+    owner = models.ForeignKey(User, on_delete = models.CASCADE, blank=True, null=True )
     class Meta:
         verbose_name='Product'
         verbose_name_plural='Products'  

@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NavComponent } from './nav/nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -26,6 +26,8 @@ import { SiteLayoutComponent } from './shared/layouts/site-layout/site-layout.co
 import { RegisterPageComponent } from './register-page/register-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { TokenInterceptor } from './shared/classes/token.interceptor';
+import { OverviewPageComponent } from './overview-page/overview-page.component';
 
 
 
@@ -39,6 +41,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     SiteLayoutComponent,
     LoginPageComponent,
     RegisterPageComponent,
+    OverviewPageComponent,
     
   ],
   imports: [
@@ -60,7 +63,15 @@ import { LoginPageComponent } from './login-page/login-page.component';
      MatMenuModule,
      
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi:true,
+      useClass:TokenInterceptor
+  
+    }
+   
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

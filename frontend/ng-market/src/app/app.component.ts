@@ -1,21 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from './../environments/environment';
+import { AuthService } from './shared/services/auth.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ng-market';
   productList = {results:[]}
   categoriesList ={results:[]}
 
-  constructor(private http:HttpClient){
-      this.getProductsList()
-      this.getCategoriesList()
+  constructor(private http:HttpClient, private auth: AuthService){
+      // this.getProductsList()
+      // this.getCategoriesList()
   }
 
 
@@ -38,4 +39,12 @@ export class AppComponent {
 
 }
 
+ngOnInit(){
+  const potentialToken = localStorage.getItem('auth-token')
+  if(potentialToken!== null){
+    this.auth.setToken(potentialToken)
+  }
+
+  }
 }
+
