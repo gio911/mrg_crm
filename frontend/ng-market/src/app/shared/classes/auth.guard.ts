@@ -13,9 +13,10 @@ export class AuthGuard implements CanActivate, CanActivateChild{
                 }
 
     canActivate(route:ActivatedRouteSnapshot, state:RouterStateSnapshot):Observable<boolean>{
-        console.log('1',this.auth.isAuthenticated());
+        
         
         if(this.auth.isAuthenticated()){
+            
             return of(true)
         }else{
             this.router.navigate(['login'], {
@@ -23,12 +24,13 @@ export class AuthGuard implements CanActivate, CanActivateChild{
                     accessDenied:true
                 }
             })
-            return of(false)
+            return of(true)
         }
 
     } 
     
     canActivateChild(route:ActivatedRouteSnapshot, state:RouterStateSnapshot):Observable<boolean>{
+        console.log('IS AUTH FROM GUARD',this.auth.isAuthenticated());
         return this.canActivate(route, state)
     }
     

@@ -40,11 +40,25 @@ export class AppComponent implements OnInit {
 }
 
 ngOnInit(){
+  console.log('OOOPS2');
+  try{
+    console.log();
+    
   const potentialToken = localStorage.getItem('auth-token')
-  if(potentialToken!== null){
-    this.auth.setToken(potentialToken)
-  }
 
+  if(potentialToken!== null){
+    console.log('POTENTIAL TOKEN',potentialToken);
+    
+    this.auth.setToken(potentialToken)
+    console.log('FROM LOCAL STOREGE',this.auth.getToken());
+    console.log('FROM IS AUTHEN',this.auth.isAuthenticated());
+  }
+  console.log('OOOPS3');
+}catch{
+  console.log("OOOPS4");
+  
+}
+  
   }
 }
 

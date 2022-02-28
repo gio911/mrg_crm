@@ -75,15 +75,15 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
 }
-# SWAGGER_SETTINGS ={
-#     'SECURITY_DEFINITIONS':{
-#         'Bearer':{
-#             'type':'apiKey',
-#             'name':'Authorization',
-#              'in':'header'
-#         }
-#     }
-# }
+SWAGGER_SETTINGS ={
+    'SECURITY_DEFINITIONS':{
+        'Token':{
+            'type':'apiKey',
+            'name':'Authorization',
+             'in':'header'
+        }
+    }
+}
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -121,7 +121,7 @@ WSGI_APPLICATION = 'mrg_crm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'metamask3',                      
+        'NAME': 'moonbeam',                      
         'USER': 'postgres',
         'PASSWORD': '123321',
         'HOST': '127.0.0.1',
@@ -171,9 +171,8 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
        'DEFAULT_AUTHENTICATION_CLASSES': [
         # print('OOOUPPPS'),
-        	#'users.authentication.backends.JWTAuthentication',  
+        	'users.authentication.backends.JWTAuthentication',  
         #print('OOOUPPPS2'),  
-        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
     'NON_FIELD_ERRORS_KEY':'error',
 
@@ -192,7 +191,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': False,
     'UPDATE_LAST_LOGIN': False,
 
-    'ALGORITHM': 'HS256',
+   
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
@@ -234,3 +233,4 @@ EMAIL_PORT=587
 
 EMAIL_HOST_USER='venator0911@gmail.com'
 EMAIL_HOST_PASSWORD='9857730009Ed'
+

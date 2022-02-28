@@ -7,10 +7,6 @@ from rest_framework import permissions, routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 
 
 
@@ -39,11 +35,11 @@ router = routers.DefaultRouter()
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    path('v1/', include([
-        path('viewsets/', include(router.urls)), #VIEWSETS ROUTS
-        path('categories/', include('market.urls')), #GENERIC ROUTS
+   #  path('api/', include([
+   #      path('viewsets/', include(router.urls)), #VIEWSETS ROUTS
+   #      path('categories/', include('market.urls')), #GENERIC ROUTS
         
-    ])),
+   #  ])),
     path('api/', include('users.urls')),
     # path('api/token/', TokenObtainPairView.as_view()),
     # path('api/token/refresh/', TokenRefreshView.as_view()),

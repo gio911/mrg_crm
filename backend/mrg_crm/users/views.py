@@ -3,17 +3,17 @@ from django.contrib.auth.models import User
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import  EmailVarificationSerializer, RegisterSerializer, LoginSerializer
-import jwt, datetime
+from .serializers import  EmailVarificationSerializer, RegistrationSerializer, LoginSerializer
 from rest_framework import serializers, status, generics
-from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 import jwt
 from django.conf import settings
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from rest_framework import status
 
+from .authentication.backends import JWTAuthentication
 from rest_framework import permissions
 
 from .utils import Util
@@ -21,22 +21,31 @@ from .utils import Util
 from .models import User
 
 
-class RegisterView(APIView):
+class RegistrationAPIView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegistrationSerializer
 
     def post(self, request):
-        serializer = RegisterSerializer(data=request.data)
+        
+        print("09090909",request.data)
+        serializer = self.serializer_class(data=request.data)
+        #print(serializer)
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
         user_data=serializer.data
-
+        token = user_data['token']
+        print('************',token)
         user = User.objects.get(email=user_data['email'])
-        token = RefreshToken.for_user(user).access_token
+        
+        # token = RefreshToken.for_user(user).access_token
         
         current_site = get_current_site(request).domain
+        
         relativeLink = reverse('email-verify')
         
         absurl = 'http://'+current_site+relativeLink+"?token="+str(token)
+       
         email_body = 'Hi '+user.username+'Use a link below to verify your email\n' +absurl
         data={ 'email_body':email_body, 'to_email':user.email, 'email_subject':'Verify your email'}
         Util.send_email(data)
@@ -59,7 +68,7 @@ class VerifyEmail(APIView):
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             print('payload', payload)
 
-            user = User.objects.get(id=payload['user_id'])
+            user = User.objects.get(id=payload['id'])
             print('user', user)
 
             if not user.is_verified:
@@ -75,6 +84,7 @@ class VerifyEmail(APIView):
 
 class LoginAPIView(generics.GenericAPIView):
     permission_classes = (permissions.AllowAny,)
+    authentication_classes = (JWTAuthentication,)
     serializer_class = LoginSerializer
     def post(self, request):
         #print("AUTHORIZATION TOKEN FROM FRONTEND",request.headers['Authorization'])
@@ -83,6 +93,36 @@ class LoginAPIView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class UserView(APIView):
+
+    def get(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed('Unauthenticated')
+
+        try:
+            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed('Unauthenticated!')
+
+        user = User.objects.filter(id=payload['id']).first()
+        serializer = UserSerializer(user)    
+
+        return Response(serializer.data)        
+
+class LogoutView(APIView):
+    def post(self,request):
+        response=Response()
+        response.delete_cookie('jwt')
+        response.data={
+            'message':'success'
+        }    
+
+        return response    
 
 
 # class RegisterView(APIView):
@@ -124,33 +164,3 @@ class LoginAPIView(generics.GenericAPIView):
 #         }
 
 #         return response
-
-
-class UserView(APIView):
-
-    def get(self, request):
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            raise AuthenticationFailed('Unauthenticated')
-
-        try:
-            payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-
-        except jwt.ExpiredSignatureError:
-            raise AuthenticationFailed('Unauthenticated!')
-
-        user = User.objects.filter(id=payload['id']).first()
-        serializer = UserSerializer(user)    
-
-        return Response(serializer.data)        
-
-class LogoutView(APIView):
-    def post(self,request):
-        response=Response()
-        response.delete_cookie('jwt')
-        response.data={
-            'message':'success'
-        }    
-
-        return response    

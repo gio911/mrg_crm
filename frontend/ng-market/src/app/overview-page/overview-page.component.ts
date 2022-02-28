@@ -8,17 +8,14 @@ import { ApiService } from '../shared/services/api.service';
 })
 export class OverviewPageComponent implements OnInit {
 
+
+
   constructor(private router:ApiService) {
     
   }
    
 
   ngOnInit(): void {
-    this.router.getCategoriesApi().subscribe(
-      
-      
-      (x)=>{console.log('YOOO')}
-      
-    )
+    
   }
 }

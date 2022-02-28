@@ -36,11 +36,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
     })
     this.route.queryParams.subscribe((params:Params)=>{
       if(params['registered']){
-        alert('Now you can enter to the app')
+        // alert('Now you can enter to the app')
 
       } else if(params['accessDenied']){
         
-        alert('You Hawe to Auth at the beginning')
+        // alert('You Hawe to Auth at the beginning')
       }
     })
   }
@@ -52,8 +52,8 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       
         this.router.navigate(['/overview'])},
       (error)=>{
-        alert(error.error.detail)
-        MaterialService.toast('HI THERE')
+        // alert(error.error.detail)
+        MaterialService.toast('1')
         this.form.enable()
       }
       

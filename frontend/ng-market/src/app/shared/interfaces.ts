@@ -1,6 +1,13 @@
 export interface User{
-    email:String
-    password:String
+    email:string
+    password:string
+}
+
+export interface Category{
+    name:string
+    image?:string
+    user?:string
+    id?:string
 }
 
 

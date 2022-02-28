@@ -10,7 +10,7 @@ from . import views
 
 
 urlpatterns=[
-    
+    #http://localhost:8000/api/categories/
     # path('userlogin', AuthView.as_view()),
     # path('product_list', ProductListView.as_view()),
     path('', views.CategoryListAPIView.as_view(), name='categories' ),

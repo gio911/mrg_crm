@@ -15,21 +15,19 @@ export class AuthService{
 
     }
 
-
-
     register(user:User):Observable<User>{
         return this.http.post<User>('http://localhost:8000/api/register/', user)
     }
 
-    login(user:User):Observable<{tokens:string}>{
-        return this.http.post<{tokens:string}>('http://localhost:8000/api/login/', user)
+    login(user:User):Observable<{token:string}>{
+        return this.http.post<{token:string}>('http://localhost:8000/api/login/', user)
         .pipe(
             tap(
-                ({tokens})=>{
+                ({token})=>{
                     
                     
-                    localStorage.setItem('auth-token', tokens['access'])
-                    this.setToken(tokens['access'])
+                    localStorage.setItem('auth-token', token['access'])
+                    this.setToken(token['access'])
                   
                 }
             ) //оператор tap позволяет нам выцепить что-либо из стрима
@@ -40,14 +38,17 @@ export class AuthService{
 
     setToken(token:string){
         this.token =token
+        console.log('FROM SET TOKEN', this.token);
+        
     }
 
     getToken():string{
+        console.log('FROM GET TOKEN', this.token);
+        
         return this.token
     }
 
     isAuthenticated():boolean{
-        console.log('FROM LOGIN AUTH', !!this.token);
 
         return !!this.token
     }

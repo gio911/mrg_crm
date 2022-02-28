@@ -1,5 +1,5 @@
 from django.contrib import admin
-from market.models import Provider, Consumer, Category, SubCategory, Product, Store, Order, OrderProduct
+from market.models import Provider, Consumer, Category, Product, Store, Order, OrderProduct
 
 class ProviderAdmin(admin.ModelAdmin):
     pass
@@ -13,9 +13,7 @@ class ConsumerAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Consumer, ConsumerAdmin)
 
-class SubCategoryAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(SubCategory, SubCategoryAdmin)
+
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'image_url']    
