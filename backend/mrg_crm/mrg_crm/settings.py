@@ -62,13 +62,6 @@ MIDDLEWARE = [
 
 # /Users/davidstroitel/Desktop/mrg_crm/backend/mrg_crm/users/backends.py
 
-REST_FRAMEWORK = {
-
- 
-    
-}
-
-
 
 SIMPLE_JWT = {
 

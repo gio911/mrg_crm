@@ -88,10 +88,10 @@ class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     def post(self, request):
         #print("AUTHORIZATION TOKEN FROM FRONTEND",request.headers['Authorization'])
-        print('HIIII THERE', request.META)
+        #print('HIIII THERE', request.META)
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print(serializer.data)
+        print('777777777',serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 

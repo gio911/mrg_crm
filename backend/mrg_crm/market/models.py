@@ -44,6 +44,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True, related_name='products')
     owner = models.ForeignKey(to=User, on_delete = models.CASCADE, blank=True, null=True )
+    
     class Meta:
         verbose_name='Product'
         verbose_name_plural='Products'  

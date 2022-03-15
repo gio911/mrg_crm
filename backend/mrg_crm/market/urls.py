@@ -13,8 +13,13 @@ urlpatterns=[
     #http://localhost:8000/api/categories/
     # path('userlogin', AuthView.as_view()),
     # path('product_list', ProductListView.as_view()),
-    path('', views.CategoryListAPIView.as_view(), name='categories' ),
-    path('<int:id>', views.CategoryDetailAPIView.as_view(), name='category'),
+    path('categories/', views.CategoryListAPIView.as_view(), name='categories' ),
+    path('categories/<int:id>/', views.CategoryDetailAPIView.as_view(), name='category'),
+    path('product_list/<int:id>', views.ProductListView.as_view()),
+    path('add_product/', views.AddProductView.as_view(), name='add-product'),
+    path('add_product/<int:id>', views.AddProductView.as_view(), name='add-product'),
+    path('delete_product/<int:id>', views.AddProductView.as_view(), name = 'delete-product')
+   
     # path('category_list', CategoryViewSet.as_view({'get': 'list'}))
 
 ] 

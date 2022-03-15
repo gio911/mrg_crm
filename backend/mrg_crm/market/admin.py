@@ -6,17 +6,18 @@ class ProviderAdmin(admin.ModelAdmin):
 admin.site.register(Provider, ProviderAdmin)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', ] 
-admin.site.register(Product, ProductAdmin)    
+    list_display = ['name', 'category']
+    list_filter = ['category']
+
+admin.site.register(Product, ProductAdmin)   
 
 class ConsumerAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Consumer, ConsumerAdmin)
 
 
-
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'image_url']    
+    list_display = ['name', 'image']    
     
 admin.site.register(Category, CategoryAdmin)
 

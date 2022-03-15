@@ -40,9 +40,11 @@ urlpatterns = [
    #      path('categories/', include('market.urls')), #GENERIC ROUTS
         
    #  ])),
-    path('api/', include('users.urls')),
+    
     # path('api/token/', TokenObtainPairView.as_view()),
     # path('api/token/refresh/', TokenRefreshView.as_view()),
+    path('api/', include('market.urls')),
+    path('api/', include('users.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('doc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]

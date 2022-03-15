@@ -1,5 +1,6 @@
 from .test_setup import TestSetUp
 import pdb
+from ..models import User
 
 class TestViews(TestSetUp):
 
@@ -10,4 +11,22 @@ class TestViews(TestSetUp):
     def test_user_can_register_correctly(self):
         res = self.client.post(self.register_url, self.user_data, format='json')
         # pdb.set_trace()
+        self.assertEqual(res.data['email'], self.user_data['email'])
+        self.assertEqual(res.data['username'], self.user_data['username'])
         self.assertEqual(res.status_code, 201)
+
+    def test_user_cannot_login_with_uuverified_email(self):
+        self.client.post(self.register_url, self.user_data, format='json')
+        res = self.client.post(self.login_url, self.user_data, format='json')
+        # pdb.set_trace()
+        self.assertEqual(res.status_code, 403)
+
+    def test_user_can_login_after_verification(self):
+        response = self.client.post(self.register_url, self.user_data, forat='json')
+        email = response.data['email']
+        user = User.objects.get(email=email)
+        user.is_verified = True
+        user.save()
+        res = self.client.post(self.login_url, self.user_data, format = 'json')
+        # pdb.set_trace()
+        self.assertEqual(res.status_code, 200)
