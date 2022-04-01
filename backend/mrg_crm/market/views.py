@@ -1,3 +1,4 @@
+from cmath import log
 from django.http import request
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
@@ -5,8 +6,8 @@ from rest_framework.mixins import ListModelMixin, UpdateModelMixin
 from users.authentication.backends import JWTAuthentication
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import CategorySerializer, ProductSerializer, AddProductRequestSerializer
-from .models import Category, Product
+from .serializers import CategorySerializer, OrderSerializer, ProductSerializer, AddProductRequestSerializer
+from .models import Category, Order, OrderProduct, Product
 from rest_framework import permissions, viewsets
 from .permissions import IsOwner
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -129,4 +130,38 @@ class AddProductView(APIView):
         
         return Response({"message":"Product was deleted"})    
     
+
+class BasketSubmitView(APIView):
+    '''
+    Submit basket.
+    ___________________________
+    '''
+
+    permission_classes = (IsAuthenticated,)
+    # @swagger_auto_schema( 
+    #     request_body = BasketSubmitRequestSerializer, \
+    #     responses={200: OrderSerializer} \
+    #     )
+    def post(self, request, format=None):
+        o = Order()
+        o.consumer = request.user
+        o.save()
+        print('ORDER CREATING',request.data)
+        for item in request.data.get('list'):
             
+            product = Product.objects.get(pk=item['name'])
+            op = OrderProduct()
+            op.product = product
+            op.order = o
+            op.amount = item['amount']
+            op.save()
+
+        #     noty = Notification()
+        #     noty.product = product
+        #     noty.consumer = request.user.userprofile
+        #     noty.provider = product.user
+        #     noty.save()
+        
+        # async_to_sync(channel_layer.group_send)("notifications", {"type": "send_notify"})
+            
+        return Response(OrderSerializer(o).data)

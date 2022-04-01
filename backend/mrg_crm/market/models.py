@@ -70,16 +70,16 @@ class Store(models.Model):
 
 class Order(models.Model):
 
-    STATUS = (
-        ('new', 'new order'),
-        ('pending', 'pending order'),
-        ('finishing', 'finished order'),
-    )
+    # STATUS = (
+    #     ('new', 'new order'),
+    #     ('pending', 'pending order'),
+    #     ('finishing', 'finished order'),
+    # )
 
-    consumer = models.ForeignKey(Consumer, on_delete=models.CASCADE)
-    create_at = models.DateTimeField(auto_now_add=True)    
-    update_at = models.DateTimeField(auto_now=True)  
-    status = models.CharField(max_length=10, default = 'new', choices=STATUS)  
+    consumer = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)    
+    #update_at = models.DateTimeField(auto_now=True)  
+    #status = models.CharField(max_length=10, default = 'new', choices=STATUS)  
     class Meta:
         verbose_name='Order'
         verbose_name_plural='Orders'
@@ -87,7 +87,8 @@ class Order(models.Model):
 class OrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null = True, blank=True)    
-    ammount = models.IntegerField(default=0)
+    amount = models.IntegerField(default=0)
+    
     class Meta:
         verbose_name='OrderProduct'
         verbose_name_plural='OrderProducts'

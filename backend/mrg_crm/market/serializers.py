@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import Category, Product
+from . models import Category, Order, OrderProduct, Product
 
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
@@ -29,4 +29,23 @@ class AddProductRequestSerializer(serializers.Serializer):
     image = serializers.FileField(allow_empty_file=True, required=False)
     imager_base64 = serializers.CharField(required=False)        
 
+class OrderProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer
+
+    class Meta:
+        model=OrderProduct
+        fields=['id', 'product', 'amount']
    
+class OrderSerializer(serializers.ModelSerializer):
+
+    products = serializers.SerializerMethodField()
+
+    def get_products(self, obj):
+        out=[]
+        for i in OrderProduct.objects.filter(order=obj):
+            out.append(OrderProductSerializer(i).data)
+
+    class Meta:
+        model=Order
+        fields=['id', 'consumer', 'created_at', 'products']
+
