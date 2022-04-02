@@ -147,13 +147,14 @@ class BasketSubmitView(APIView):
         o.consumer = request.user
         o.save()
         print('ORDER CREATING',request.data)
+        print('OrderSerializer',OrderSerializer(o).data)
         for item in request.data.get('list'):
             
-            product = Product.objects.get(pk=item['name'])
+            product = Product.objects.get(pk=item['position_id'])
             op = OrderProduct()
             op.product = product
             op.order = o
-            op.amount = item['amount']
+            op.amount = item['quantity']
             op.save()
 
         #     noty = Notification()
@@ -163,5 +164,5 @@ class BasketSubmitView(APIView):
         #     noty.save()
         
         # async_to_sync(channel_layer.group_send)("notifications", {"type": "send_notify"})
-            
+        print('ORDER SERIALIZER PRINT FROM VIEW', OrderSerializer(o).data)
         return Response(OrderSerializer(o).data)

@@ -47,11 +47,13 @@
     <div class="modal-footer">
         <button 
         (click)="cancel()"
+        [disabled]="loading==true"
         class="modal-action waves-effect waves-black btn-flat">Cencel</button>
-        <button 
+        <button
+         
         (click)="submit()"
         type="submit"
-        [disabled]="order.list.length==0" 
+        [disabled]="order.list.length==0 || loading==true" 
         class="modal-action btn waves-effect"
         >Apply</button>
     </div>

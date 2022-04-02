@@ -40,4 +40,5 @@ export interface OrderPosition{
     price:number
     quantity:number
     id?:string
+    position_id?:string
 }

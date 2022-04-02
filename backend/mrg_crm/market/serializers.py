@@ -34,7 +34,7 @@ class OrderProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model=OrderProduct
-        fields=['id', 'product', 'amount']
+        fields=['id','order', 'product', 'amount']
    
 class OrderSerializer(serializers.ModelSerializer):
 
@@ -44,7 +44,8 @@ class OrderSerializer(serializers.ModelSerializer):
         out=[]
         for i in OrderProduct.objects.filter(order=obj):
             out.append(OrderProductSerializer(i).data)
-
+            print('1111111', out)
+        return out    
     class Meta:
         model=Order
         fields=['id', 'consumer', 'created_at', 'products']

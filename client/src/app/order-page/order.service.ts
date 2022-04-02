@@ -14,7 +14,8 @@ export class OrderService{
             name:position.name,
             price:position.price,
             quantity:position.quantity,
-            id:position.id
+            id:position.id,
+            position_id:position.id
         })
 
         const candidate = this.list.find(p=>p.id===orderPosition.id)
@@ -36,7 +37,8 @@ export class OrderService{
     }
 
     clear(){
-
+        this.list = []
+        this.price = 0
     }
 
     private computePrice(){
