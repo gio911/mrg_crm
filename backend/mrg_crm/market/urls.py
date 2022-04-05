@@ -20,6 +20,7 @@ urlpatterns=[
     path('add_product/<int:id>/', views.AddProductView.as_view(), name='add-product'),
     path('delete_product/<int:id>/', views.AddProductView.as_view(), name = 'delete-product'),
     path('order_submit/', views.BasketSubmitView.as_view()), 
+    path('orders_list/', views.OrdersListAPIView.as_view())
     # path('category_list', CategoryViewSet.as_view({'get': 'list'}))
 
 ] 

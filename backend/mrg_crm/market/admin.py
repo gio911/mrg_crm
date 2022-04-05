@@ -27,10 +27,12 @@ class StoreAdmin(admin.ModelAdmin):
 admin.site.register(Store, StoreAdmin)
 
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['consumer']
+    
 admin.site.register(Order, OrderAdmin)
 
 class OrderProductAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['product', 'order', 'amount']
+
 admin.site.register(OrderProduct, OrderProductAdmin)
 

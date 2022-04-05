@@ -75,6 +75,7 @@ class Order(models.Model):
     #     ('pending', 'pending order'),
     #     ('finishing', 'finished order'),
     # )
+   # product = models.ForeignKey(Product, on_delete=models.CASCADE, null = True, blank=True)
 
     consumer = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)    
@@ -88,7 +89,8 @@ class OrderProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null = True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, null = True, blank=True)    
     amount = models.IntegerField(default=0)
-    
+    price=models.FloatField(default=0)
+
     class Meta:
         verbose_name='OrderProduct'
         verbose_name_plural='OrderProducts'

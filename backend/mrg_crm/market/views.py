@@ -3,10 +3,11 @@ from django.http import request
 from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, GenericAPIView
 from rest_framework.mixins import ListModelMixin, UpdateModelMixin
+from .mypagination import MyLimitPagination
 from users.authentication.backends import JWTAuthentication
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .serializers import CategorySerializer, OrderSerializer, ProductSerializer, AddProductRequestSerializer
+from .serializers import CategorySerializer, OrderProductSerializer, OrderSerializer, ProductSerializer, AddProductRequestSerializer
 from .models import Category, Order, OrderProduct, Product
 from rest_framework import permissions, viewsets
 from .permissions import IsOwner
@@ -33,6 +34,17 @@ class CategoryListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)
+
+class OrdersListAPIView(ListCreateAPIView):
+    serializer_class=OrderSerializer
+    queryset=Order.objects.all()
+    authentication_class=(JWTAuthentication)
+    pagination_class=MyLimitPagination
+
+    permission_classes=(permissions.IsAuthenticated, IsOwner)
+
+    def get_queryset(self):
+        return self.queryset.filter(consumer=self.request.user)
 
 
 class CategoryDetailAPIView(RetrieveUpdateDestroyAPIView):
@@ -146,17 +158,20 @@ class BasketSubmitView(APIView):
         o = Order()
         o.consumer = request.user
         o.save()
-        print('ORDER CREATING',request.data)
+        print('ORDER CREATING', request.data)
         print('OrderSerializer',OrderSerializer(o).data)
         for item in request.data.get('list'):
             
             product = Product.objects.get(pk=item['position_id'])
+            print('PRODUCTSERIALIZER', ProductSerializer(product).data)
             op = OrderProduct()
             op.product = product
+            print('product.price', item['price'])
             op.order = o
+            op.price = item['price']
             op.amount = item['quantity']
             op.save()
-
+            print('ORDERPRODUCTSERIALIZER', OrderProductSerializer(product).data)
         #     noty = Notification()
         #     noty.product = product
         #     noty.consumer = request.user.userprofile
